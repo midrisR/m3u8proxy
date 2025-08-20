@@ -9,24 +9,25 @@ const web_server_url = process.env.PUBLIC_URL || `http://${host}:${port}`;
 
 export default async function proxyM3U8(url, headers, res) {
   try {
-    console.log('Fetching M3U8 from:', url);
+    console.log("Fetching M3U8 from:", url);
     const req = await axios(url, {
       headers: {
-        "Referer": "https://megacloud.club/",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36",
+        Referer: "https://kwik.si/",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36",
         ...headers,
       },
       validateStatus: function (status) {
         return status >= 200 && status < 500;
-      }
+      },
     });
 
     if (!req || !req.data) {
-      throw new Error('No data received from the M3U8 URL');
+      throw new Error("No data received from the M3U8 URL");
     }
 
-    console.log('M3U8 content received:', req.data.substring(0, 200) + '...');
-    
+    console.log("M3U8 content received:", req.data.substring(0, 200) + "...");
+
     const m3u8 = req.data
       .split("\n")
       .filter((line) => !line.startsWith("#EXT-X-MEDIA:TYPE=AUDIO"))
@@ -147,18 +148,20 @@ export default async function proxyM3U8(url, headers, res) {
       return;
     }
   } catch (err) {
-    console.error('Error in proxyM3U8:', err.message);
-    console.error('Error details:', {
+    console.error("Error in proxyM3U8:", err.message);
+    console.error("Error details:", {
       url,
       headers,
-      error: err.response?.data || err.message
+      error: err.response?.data || err.message,
     });
-    res.writeHead(500, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({
-      error: 'Failed to fetch M3U8',
-      details: err.message,
-      url: url
-    }));
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        error: "Failed to fetch M3U8",
+        details: err.message,
+        url: url,
+      })
+    );
     return null;
   }
 }
