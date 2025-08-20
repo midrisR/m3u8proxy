@@ -17,7 +17,11 @@ export async function proxyTs(url, headers, req, res) {
     headers: {
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36",
+<<<<<<< HEAD
       Referer: "https://kwik.si/",
+=======
+      "Referer": "https://kwik.cx/",
+>>>>>>> fd33346d975449fa4a6cf3d9cab32ec50b725c83
       ...headers,
     },
   };
